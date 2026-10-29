@@ -1,0 +1,3415 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "PriceTax — API de cálculos",
+    "version": "1.0.0",
+    "description": "Leitura, a partir do sistema do integrador, dos dados dos cálculos feitos na PriceTax: linhas, export CSV e consultas agregadas."
+  },
+  "servers": [
+    {
+      "url": "/sdk/v1"
+    }
+  ],
+  "security": [
+    {
+      "chaveDeApi": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "chaveDeApi": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Chave de API (`ptc_<prefixo>_<segredo>`), criada em Meus Dados → Integrações. No navegador, use o token de sessão de `POST /sessoes`."
+      }
+    },
+    "schemas": {
+      "Dimensao": {
+        "type": "string",
+        "enum": [
+          "regime",
+          "tipo_movimentacao",
+          "tipo_linha",
+          "cnpj_outra_parte",
+          "regime_outra_parte",
+          "uf_emitente",
+          "cfop",
+          "ncm",
+          "cnae",
+          "tipo_operacao",
+          "segmento",
+          "codigo_produto",
+          "descricao_produto",
+          "descricao_item",
+          "descricao_anexo",
+          "numero_nf",
+          "chave_documento",
+          "competencia",
+          "data_operacao",
+          "cst_icms",
+          "cst_ipi",
+          "cst_pis",
+          "cclass_nota",
+          "cclass_calculado",
+          "cst_iva_nota",
+          "cst_iva_calculado",
+          "beneficio"
+        ],
+        "description": "Dimensão do catálogo."
+      },
+      "Metrica": {
+        "type": "string",
+        "enum": [
+          "itens",
+          "quantidade",
+          "valor_bruto_input",
+          "valor_ar",
+          "valor_impostos_ar",
+          "custo_ar",
+          "valor_sem_iva_ar",
+          "valor_desonerado_ar",
+          "credito_ar",
+          "debito_ar",
+          "valor_icms_ar",
+          "credito_icms_ar",
+          "debito_icms_ar",
+          "aliq_icms_ar",
+          "valor_icms_st_ar",
+          "credito_icms_st_ar",
+          "debito_icms_st_ar",
+          "aliq_icms_st_ar",
+          "valor_icms_difal_ar",
+          "credito_icms_difal_ar",
+          "debito_icms_difal_ar",
+          "aliq_icms_difal_ar",
+          "valor_iss_ar",
+          "credito_iss_ar",
+          "debito_iss_ar",
+          "aliq_iss_ar",
+          "valor_ipi_ar",
+          "credito_ipi_ar",
+          "debito_ipi_ar",
+          "aliq_ipi_ar",
+          "valor_pis_cofins_ar",
+          "credito_pis_cofins_ar",
+          "debito_pis_cofins_ar",
+          "aliq_pis_cofins_ar",
+          "valor_ibs_ar",
+          "credito_ibs_ar",
+          "debito_ibs_ar",
+          "aliq_ibs_ar",
+          "valor_cbs_ar",
+          "credito_cbs_ar",
+          "debito_cbs_ar",
+          "aliq_cbs_ar",
+          "valor_dr",
+          "valor_impostos_dr",
+          "custo_dr",
+          "valor_sem_iva_dr",
+          "valor_desonerado_dr",
+          "credito_dr",
+          "debito_dr",
+          "valor_icms_dr",
+          "credito_icms_dr",
+          "debito_icms_dr",
+          "aliq_icms_dr",
+          "valor_icms_st_dr",
+          "credito_icms_st_dr",
+          "debito_icms_st_dr",
+          "aliq_icms_st_dr",
+          "valor_icms_difal_dr",
+          "credito_icms_difal_dr",
+          "debito_icms_difal_dr",
+          "aliq_icms_difal_dr",
+          "valor_iss_dr",
+          "credito_iss_dr",
+          "debito_iss_dr",
+          "aliq_iss_dr",
+          "valor_ipi_dr",
+          "credito_ipi_dr",
+          "debito_ipi_dr",
+          "aliq_ipi_dr",
+          "valor_pis_cofins_dr",
+          "credito_pis_cofins_dr",
+          "debito_pis_cofins_dr",
+          "aliq_pis_cofins_dr",
+          "valor_ibs_dr",
+          "credito_ibs_dr",
+          "debito_ibs_dr",
+          "aliq_ibs_dr",
+          "valor_cbs_dr",
+          "credito_cbs_dr",
+          "debito_cbs_dr",
+          "aliq_cbs_dr",
+          "itens_entrada",
+          "quantidade_entrada",
+          "valor_ar_entrada",
+          "valor_impostos_ar_entrada",
+          "custo_ar_entrada",
+          "valor_sem_iva_ar_entrada",
+          "valor_desonerado_ar_entrada",
+          "credito_ar_entrada",
+          "debito_ar_entrada",
+          "valor_dr_entrada",
+          "valor_impostos_dr_entrada",
+          "custo_dr_entrada",
+          "valor_sem_iva_dr_entrada",
+          "valor_desonerado_dr_entrada",
+          "credito_dr_entrada",
+          "debito_dr_entrada",
+          "itens_saida",
+          "quantidade_saida",
+          "valor_ar_saida",
+          "valor_impostos_ar_saida",
+          "custo_ar_saida",
+          "valor_sem_iva_ar_saida",
+          "valor_desonerado_ar_saida",
+          "credito_ar_saida",
+          "debito_ar_saida",
+          "valor_dr_saida",
+          "valor_impostos_dr_saida",
+          "custo_dr_saida",
+          "valor_sem_iva_dr_saida",
+          "valor_desonerado_dr_saida",
+          "credito_dr_saida",
+          "debito_dr_saida",
+          "parceiros_distintos",
+          "produtos_distintos",
+          "carga_efetiva_ar",
+          "carga_efetiva_dr"
+        ],
+        "description": "Métrica do catálogo."
+      },
+      "Filtros": {
+        "type": "object",
+        "description": "Por dimensão, os valores aceitos (`null` inclui as linhas sem valor).",
+        "propertyNames": {
+          "$ref": "#/components/schemas/Dimensao"
+        },
+        "additionalProperties": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2000,
+          "items": {
+            "type": [
+              "string",
+              "number",
+              "null"
+            ]
+          }
+        }
+      },
+      "Intervalos": {
+        "type": "object",
+        "description": "Faixa fechada por dimensão (comparação de texto; datas em AAAA-MM-DD).",
+        "propertyNames": {
+          "$ref": "#/components/schemas/Dimensao"
+        },
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "de": {
+              "type": "string",
+              "maxLength": 40
+            },
+            "ate": {
+              "type": "string",
+              "maxLength": 40
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false
+        }
+      },
+      "Linha": {
+        "type": "object",
+        "description": "Uma linha do cálculo: as colunas do catálogo, nesta ordem. Coluna sem valor vem `null`.",
+        "required": [
+          "regime",
+          "cenario",
+          "ano_dr",
+          "tipo_linha",
+          "input_id",
+          "tipo_movimentacao",
+          "data_criacao_input",
+          "valor_bruto_input",
+          "desconto",
+          "valor_movimentacao_contraria_input",
+          "valor_depreciacao",
+          "ncm",
+          "cfop",
+          "cnae_principal",
+          "tipo_operacao",
+          "fornecedor_industrial",
+          "cst_icms",
+          "cst_ipi",
+          "cst_pis",
+          "cst_cofins",
+          "cclass_nota",
+          "cclass_calculado",
+          "cst_iva_nota",
+          "cst_iva_calculado",
+          "origem",
+          "uf_emitente",
+          "aliq_icms_input",
+          "aliq_iss_input",
+          "aliq_ipi_input",
+          "aliq_pis_cofins_creditar_input",
+          "aliq_pis_cofins_desonerar_input",
+          "aliq_icms_st_input",
+          "aliq_icms_difal_input",
+          "valor_icms_input",
+          "valor_icms_st_input",
+          "valor_icms_difal_input",
+          "valor_iss_input",
+          "valor_ipi_input",
+          "valor_pis_cofins_input",
+          "valor_pis_cofins_desonerar_input",
+          "valor_icms_nota_input",
+          "valor_icms_st_nota_input",
+          "valor_icms_difal_nota_input",
+          "valor_ipi_nota_input",
+          "valor_pis_cofins_nota_input",
+          "beneficio",
+          "manter_beneficio",
+          "descricao_anexo",
+          "tipo_input",
+          "metodo",
+          "tem_credito_icms",
+          "tem_credito_pis_cofins",
+          "tem_credito_ipi",
+          "custo_despesa",
+          "cnpj_outra_parte",
+          "razao_social_outra_parte",
+          "regime_tributario_outra_parte",
+          "chave_validacao",
+          "descricao_produto",
+          "codigo_produto",
+          "q_com",
+          "segmento",
+          "data_operacao",
+          "estimar_ipi",
+          "estimou_ipi",
+          "estimou_icms",
+          "estimou_iss",
+          "estimou_pis_cofins",
+          "is_devolucao",
+          "descricao_atividade",
+          "anexo",
+          "prestacao",
+          "operacao",
+          "exportacao",
+          "tipo_servico",
+          "fornecedor_simples_puro",
+          "registro",
+          "nome_servico",
+          "valor_condominio",
+          "juros",
+          "residencial",
+          "condominio_embutido",
+          "quantidade",
+          "valor_venda",
+          "valor_aquisicao",
+          "novo_usado",
+          "tipo_imovel",
+          "tipo_outra_parte",
+          "prazo_determinado",
+          "regime_outra_parte",
+          "com_operador",
+          "valor_mao_obra",
+          "valor_ar",
+          "valor_impostos_ar",
+          "porcentagem_carga_tributaria_ar",
+          "custo_ar",
+          "valor_sem_iva_ar",
+          "valor_ibs_ar",
+          "valor_cbs_ar",
+          "aliq_ibs_ar",
+          "aliq_cbs_ar",
+          "aliq_icms_ar",
+          "aliq_icms_st_ar",
+          "aliq_icms_difal_ar",
+          "aliq_iss_ar",
+          "aliq_ipi_ar",
+          "aliq_pis_cofins_ar",
+          "valor_icms_ar",
+          "valor_icms_st_ar",
+          "valor_icms_difal_ar",
+          "valor_iss_ar",
+          "valor_ipi_ar",
+          "valor_pis_cofins_ar",
+          "credito_ar",
+          "credito_icms_ar",
+          "credito_icms_st_ar",
+          "credito_icms_difal_ar",
+          "credito_iss_ar",
+          "credito_ipi_ar",
+          "credito_pis_cofins_ar",
+          "credito_ibs_ar",
+          "credito_cbs_ar",
+          "valor_desonerado_ar",
+          "valor_impostos_permanecer_ar",
+          "icms_subtrair_das_ar",
+          "debito_ar",
+          "debito_icms_ar",
+          "debito_icms_st_ar",
+          "debito_icms_difal_ar",
+          "debito_iss_ar",
+          "debito_ipi_ar",
+          "debito_pis_cofins_ar",
+          "debito_ibs_ar",
+          "debito_cbs_ar",
+          "imposto_nota_ar",
+          "imposto_nota_icms_ar",
+          "imposto_nota_icms_st_ar",
+          "imposto_nota_icms_difal_ar",
+          "imposto_nota_iss_ar",
+          "imposto_nota_ipi_ar",
+          "imposto_nota_pis_cofins_ar",
+          "imposto_nota_ibs_ar",
+          "imposto_nota_cbs_ar",
+          "valor_dr",
+          "valor_impostos_dr",
+          "porcentagem_carga_tributaria_dr",
+          "custo_dr",
+          "valor_sem_iva_dr",
+          "valor_ibs_dr",
+          "valor_cbs_dr",
+          "aliq_ibs_dr",
+          "aliq_cbs_dr",
+          "aliq_icms_dr",
+          "aliq_icms_st_dr",
+          "aliq_icms_difal_dr",
+          "aliq_iss_dr",
+          "aliq_ipi_dr",
+          "aliq_pis_cofins_dr",
+          "valor_icms_dr",
+          "valor_icms_st_dr",
+          "valor_icms_difal_dr",
+          "valor_iss_dr",
+          "valor_ipi_dr",
+          "valor_pis_cofins_dr",
+          "credito_dr",
+          "credito_icms_dr",
+          "credito_icms_st_dr",
+          "credito_icms_difal_dr",
+          "credito_iss_dr",
+          "credito_ipi_dr",
+          "credito_pis_cofins_dr",
+          "credito_ibs_dr",
+          "credito_cbs_dr",
+          "valor_desonerado_dr",
+          "valor_impostos_permanecer_dr",
+          "icms_subtrair_das_dr",
+          "debito_dr",
+          "debito_icms_dr",
+          "debito_icms_st_dr",
+          "debito_icms_difal_dr",
+          "debito_iss_dr",
+          "debito_ipi_dr",
+          "debito_pis_cofins_dr",
+          "debito_ibs_dr",
+          "debito_cbs_dr",
+          "imposto_nota_dr",
+          "imposto_nota_icms_dr",
+          "imposto_nota_icms_st_dr",
+          "imposto_nota_icms_difal_dr",
+          "imposto_nota_iss_dr",
+          "imposto_nota_ipi_dr",
+          "imposto_nota_pis_cofins_dr",
+          "imposto_nota_ibs_dr",
+          "imposto_nota_cbs_dr"
+        ],
+        "properties": {
+          "regime": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "cenario": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "ano_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "tipo_linha": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "input_id": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "tipo_movimentacao": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "data_criacao_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_bruto_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "desconto": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_movimentacao_contraria_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_depreciacao": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "ncm": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "cfop": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "cnae_principal": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "tipo_operacao": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "fornecedor_industrial": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "cst_icms": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "cst_ipi": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "cst_pis": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "cst_cofins": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "cclass_nota": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "cclass_calculado": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "cst_iva_nota": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "cst_iva_calculado": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "origem": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "uf_emitente": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_icms_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_iss_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_ipi_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_pis_cofins_creditar_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_pis_cofins_desonerar_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_icms_st_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_icms_difal_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_icms_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_icms_st_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_icms_difal_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_iss_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_ipi_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_pis_cofins_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_pis_cofins_desonerar_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_icms_nota_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_icms_st_nota_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_icms_difal_nota_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_ipi_nota_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_pis_cofins_nota_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "beneficio": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "manter_beneficio": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "descricao_anexo": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "tipo_input": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "metodo": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "tem_credito_icms": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "tem_credito_pis_cofins": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "tem_credito_ipi": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "custo_despesa": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "cnpj_outra_parte": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "razao_social_outra_parte": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "regime_tributario_outra_parte": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "chave_validacao": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "descricao_produto": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "codigo_produto": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "q_com": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "segmento": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "data_operacao": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "estimar_ipi": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "estimou_ipi": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "estimou_icms": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "estimou_iss": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "estimou_pis_cofins": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "is_devolucao": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "descricao_atividade": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "anexo": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "prestacao": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "operacao": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "exportacao": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "tipo_servico": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "fornecedor_simples_puro": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "registro": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "nome_servico": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_condominio": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "juros": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "residencial": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "condominio_embutido": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "quantidade": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_venda": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_aquisicao": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "novo_usado": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "tipo_imovel": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "tipo_outra_parte": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "prazo_determinado": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "regime_outra_parte": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "com_operador": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_mao_obra": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_impostos_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "porcentagem_carga_tributaria_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "custo_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_sem_iva_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_ibs_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_cbs_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_ibs_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_cbs_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_icms_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_icms_st_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_icms_difal_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_iss_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_ipi_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_pis_cofins_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_icms_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_icms_st_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_icms_difal_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_iss_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_ipi_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_pis_cofins_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_icms_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_icms_st_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_icms_difal_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_iss_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_ipi_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_pis_cofins_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_ibs_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_cbs_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_desonerado_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_impostos_permanecer_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "icms_subtrair_das_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_icms_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_icms_st_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_icms_difal_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_iss_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_ipi_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_pis_cofins_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_ibs_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_cbs_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_icms_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_icms_st_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_icms_difal_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_iss_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_ipi_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_pis_cofins_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_ibs_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_cbs_ar": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_impostos_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "porcentagem_carga_tributaria_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "custo_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_sem_iva_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_ibs_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_cbs_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_ibs_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_cbs_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_icms_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_icms_st_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_icms_difal_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_iss_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_ipi_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "aliq_pis_cofins_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_icms_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_icms_st_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_icms_difal_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_iss_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_ipi_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_pis_cofins_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_icms_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_icms_st_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_icms_difal_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_iss_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_ipi_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_pis_cofins_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_ibs_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "credito_cbs_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_desonerado_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "valor_impostos_permanecer_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "icms_subtrair_das_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_icms_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_icms_st_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_icms_difal_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_iss_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_ipi_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_pis_cofins_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_ibs_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "debito_cbs_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_icms_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_icms_st_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_icms_difal_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_iss_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_ipi_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_pis_cofins_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_ibs_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          },
+          "imposto_nota_cbs_dr": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          }
+        }
+      },
+      "ListaCalculos": {
+        "type": "object",
+        "properties": {
+          "calculos": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "nome": {
+                  "type": "string"
+                },
+                "criado_em": {
+                  "type": "string",
+                  "description": "ISO 8601."
+                },
+                "empresa": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "cnpj": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "regime_tributario": {
+                  "type": "string",
+                  "enum": [
+                    "simplesNacional",
+                    "lucroReal",
+                    "lucroPresumido"
+                  ],
+                  "nullable": true,
+                  "description": "Regime atual da empresa."
+                },
+                "processando": {
+                  "type": "boolean",
+                  "description": "O cálculo está sendo refeito agora."
+                }
+              },
+              "required": [
+                "id",
+                "nome",
+                "criado_em",
+                "empresa",
+                "cnpj",
+                "regime_tributario",
+                "processando"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "calculos"
+        ],
+        "additionalProperties": false
+      },
+      "CalculoDetalhe": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nome": {
+            "type": "string"
+          },
+          "criado_em": {
+            "type": "string",
+            "description": "ISO 8601."
+          },
+          "empresa": {
+            "type": "string",
+            "nullable": true
+          },
+          "cnpj": {
+            "type": "string",
+            "nullable": true
+          },
+          "regime_tributario": {
+            "type": "string",
+            "enum": [
+              "simplesNacional",
+              "lucroReal",
+              "lucroPresumido"
+            ],
+            "nullable": true,
+            "description": "Regime atual da empresa."
+          },
+          "processando": {
+            "type": "boolean",
+            "description": "O cálculo está sendo refeito agora."
+          },
+          "periodo_meses": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Duração do período analisado."
+          },
+          "total_linhas": {
+            "type": "integer",
+            "description": "Linhas do cálculo em todos os recortes."
+          },
+          "regimes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "anos": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "cenarios": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "O valor a usar em `cenario_vendas`/`cenario_compras`."
+                },
+                "nome": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "nome"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "id",
+          "nome",
+          "criado_em",
+          "empresa",
+          "cnpj",
+          "regime_tributario",
+          "processando",
+          "periodo_meses",
+          "total_linhas",
+          "regimes",
+          "anos",
+          "cenarios"
+        ],
+        "additionalProperties": false
+      },
+      "LinhasEntrada": {
+        "type": "object",
+        "properties": {
+          "recorte": {
+            "type": "object",
+            "properties": {
+              "regime": {
+                "type": "string",
+                "enum": [
+                  "simplesNacional",
+                  "lucroReal",
+                  "lucroPresumido"
+                ],
+                "description": "Regime tributário simulado."
+              },
+              "ano": {
+                "type": "integer",
+                "minimum": 2025,
+                "maximum": 2033,
+                "description": "Ano da simulação depois da reforma."
+              },
+              "cenario_vendas": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "base"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "sem_reajuste"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                ],
+                "description": "Cenário das linhas de saída.",
+                "default": "base"
+              },
+              "cenario_compras": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "base"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "sem_reajuste"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                ],
+                "description": "Cenário das linhas de entrada.",
+                "default": "base"
+              }
+            },
+            "required": [
+              "regime",
+              "ano"
+            ],
+            "additionalProperties": false,
+            "description": "Recorte do cálculo: um regime, um ano e um cenário por sentido."
+          },
+          "sentido": {
+            "type": "string",
+            "enum": [
+              "entrada",
+              "saida",
+              "ambas"
+            ],
+            "default": "ambas",
+            "description": "Linhas de entrada (compras), de saída (vendas) ou as duas."
+          },
+          "filtros": {
+            "$ref": "#/components/schemas/Filtros",
+            "description": "Por dimensão, os valores aceitos (`null` inclui as linhas sem valor)."
+          },
+          "excluir": {
+            "$ref": "#/components/schemas/Filtros",
+            "description": "Por dimensão, os valores a excluir."
+          },
+          "intervalos": {
+            "$ref": "#/components/schemas/Intervalos",
+            "description": "Faixa fechada por dimensão (comparação de texto; datas em AAAA-MM-DD)."
+          },
+          "limite": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500,
+            "default": 100
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "O `proximo_cursor` da página anterior."
+          }
+        },
+        "required": [
+          "recorte"
+        ],
+        "additionalProperties": false
+      },
+      "LinhasSaida": {
+        "type": "object",
+        "properties": {
+          "linhas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Linha"
+            }
+          },
+          "total_linhas": {
+            "type": "integer",
+            "description": "Total de linhas do recorte, em todas as páginas."
+          },
+          "proximo_cursor": {
+            "type": "string",
+            "nullable": true,
+            "description": "`null` na última página."
+          }
+        },
+        "required": [
+          "linhas",
+          "total_linhas",
+          "proximo_cursor"
+        ],
+        "additionalProperties": false
+      },
+      "ExportEntrada": {
+        "type": "object",
+        "properties": {
+          "recorte": {
+            "type": "object",
+            "properties": {
+              "regime": {
+                "type": "string",
+                "enum": [
+                  "simplesNacional",
+                  "lucroReal",
+                  "lucroPresumido"
+                ],
+                "description": "Regime tributário simulado."
+              },
+              "ano": {
+                "type": "integer",
+                "minimum": 2025,
+                "maximum": 2033,
+                "description": "Ano da simulação depois da reforma."
+              },
+              "cenario_vendas": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "base"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "sem_reajuste"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                ],
+                "description": "Cenário das linhas de saída.",
+                "default": "base"
+              },
+              "cenario_compras": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "base"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "sem_reajuste"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                ],
+                "description": "Cenário das linhas de entrada.",
+                "default": "base"
+              }
+            },
+            "required": [
+              "regime",
+              "ano"
+            ],
+            "additionalProperties": false,
+            "description": "Recorte do cálculo: um regime, um ano e um cenário por sentido."
+          },
+          "sentido": {
+            "type": "string",
+            "enum": [
+              "entrada",
+              "saida",
+              "ambas"
+            ],
+            "default": "ambas",
+            "description": "Linhas de entrada (compras), de saída (vendas) ou as duas."
+          },
+          "filtros": {
+            "$ref": "#/components/schemas/Filtros",
+            "description": "Por dimensão, os valores aceitos (`null` inclui as linhas sem valor)."
+          },
+          "excluir": {
+            "$ref": "#/components/schemas/Filtros",
+            "description": "Por dimensão, os valores a excluir."
+          },
+          "intervalos": {
+            "$ref": "#/components/schemas/Intervalos",
+            "description": "Faixa fechada por dimensão (comparação de texto; datas em AAAA-MM-DD)."
+          }
+        },
+        "required": [
+          "recorte"
+        ],
+        "additionalProperties": false
+      },
+      "ConsultaEntrada": {
+        "type": "object",
+        "properties": {
+          "recorte": {
+            "type": "object",
+            "properties": {
+              "regime": {
+                "type": "string",
+                "enum": [
+                  "simplesNacional",
+                  "lucroReal",
+                  "lucroPresumido"
+                ],
+                "description": "Regime tributário simulado."
+              },
+              "ano": {
+                "type": "integer",
+                "minimum": 2025,
+                "maximum": 2033,
+                "description": "Ano da simulação depois da reforma."
+              },
+              "cenario_vendas": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "base"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "sem_reajuste"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                ],
+                "description": "Cenário das linhas de saída.",
+                "default": "base"
+              },
+              "cenario_compras": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "base"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "sem_reajuste"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                ],
+                "description": "Cenário das linhas de entrada.",
+                "default": "base"
+              }
+            },
+            "required": [
+              "regime",
+              "ano"
+            ],
+            "additionalProperties": false,
+            "description": "Recorte do cálculo: um regime, um ano e um cenário por sentido."
+          },
+          "sentido": {
+            "type": "string",
+            "enum": [
+              "entrada",
+              "saida",
+              "ambas"
+            ],
+            "default": "ambas",
+            "description": "Linhas de entrada (compras), de saída (vendas) ou as duas."
+          },
+          "filtros": {
+            "$ref": "#/components/schemas/Filtros",
+            "description": "Por dimensão, os valores aceitos (`null` inclui as linhas sem valor)."
+          },
+          "excluir": {
+            "$ref": "#/components/schemas/Filtros",
+            "description": "Por dimensão, os valores a excluir."
+          },
+          "intervalos": {
+            "$ref": "#/components/schemas/Intervalos",
+            "description": "Faixa fechada por dimensão (comparação de texto; datas em AAAA-MM-DD)."
+          },
+          "agrupar_por": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dimensao"
+            },
+            "minItems": 1,
+            "maxItems": 4,
+            "description": "Sem `agrupar_por`, um único total."
+          },
+          "metricas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Metrica"
+            },
+            "minItems": 1,
+            "maxItems": 80
+          },
+          "ordenar_por": {
+            "type": "object",
+            "properties": {
+              "metrica": {
+                "$ref": "#/components/schemas/Metrica"
+              },
+              "direcao": {
+                "type": "string",
+                "enum": [
+                  "asc",
+                  "desc"
+                ],
+                "default": "desc"
+              }
+            },
+            "required": [
+              "metrica"
+            ],
+            "additionalProperties": false
+          },
+          "limite": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 500,
+            "default": 100
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100000,
+            "default": 0
+          }
+        },
+        "required": [
+          "recorte",
+          "metricas"
+        ],
+        "additionalProperties": false
+      },
+      "ConsultaSaida": {
+        "type": "object",
+        "properties": {
+          "grupos": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "enum": [
+                      "null"
+                    ],
+                    "nullable": true
+                  }
+                ]
+              }
+            },
+            "description": "Uma entrada por grupo: as dimensões de `agrupar_por` e as `metricas` pedidas."
+          },
+          "total_grupos": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "grupos",
+          "total_grupos"
+        ],
+        "additionalProperties": false
+      },
+      "SessaoEntrada": {
+        "type": "object",
+        "properties": {
+          "calculo_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "calculo_id"
+        ],
+        "additionalProperties": false
+      },
+      "SessaoSaida": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Use como `Authorization: Bearer <token>` no navegador."
+          },
+          "expira_em": {
+            "type": "string",
+            "description": "ISO 8601."
+          },
+          "calculo_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "token",
+          "expira_em",
+          "calculo_id"
+        ],
+        "additionalProperties": false
+      },
+      "Eu": {
+        "type": "object",
+        "properties": {
+          "conta_servico": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "nome": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "nome"
+            ],
+            "additionalProperties": false
+          },
+          "chave": {
+            "type": "object",
+            "properties": {
+              "prefixo": {
+                "type": "string"
+              },
+              "escopos": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "prefixo",
+              "escopos"
+            ],
+            "additionalProperties": false
+          },
+          "sessao": {
+            "type": "object",
+            "properties": {
+              "calculo_id": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            "required": [
+              "calculo_id"
+            ],
+            "additionalProperties": false,
+            "nullable": true,
+            "description": "Preenchido quando a credencial é um token de sessão."
+          }
+        },
+        "required": [
+          "conta_servico",
+          "chave",
+          "sessao"
+        ],
+        "additionalProperties": false
+      },
+      "Erro": {
+        "type": "object",
+        "properties": {
+          "erro": {
+            "type": "object",
+            "properties": {
+              "codigo": {
+                "type": "string",
+                "enum": [
+                  "chave_invalida",
+                  "requer_chave",
+                  "fora_da_sessao",
+                  "requisicao_invalida",
+                  "cursor_invalido",
+                  "calculo_nao_encontrado",
+                  "recalcule",
+                  "limite_excedido",
+                  "servico_ocupado",
+                  "servico_indisponivel",
+                  "erro_interno"
+                ]
+              },
+              "mensagem": {
+                "type": "string",
+                "description": "Texto para uma pessoa ler; decida pelo `codigo`."
+              },
+              "detalhes": {
+                "description": "Em `requisicao_invalida`, os campos com problema."
+              }
+            },
+            "required": [
+              "codigo",
+              "mensagem"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "erro"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "paths": {
+    "/eu": {
+      "get": {
+        "summary": "Conferir a credencial",
+        "description": "Devolve a conta de serviço dona da credencial e as permissões dela.",
+        "responses": {
+          "200": {
+            "description": "Credencial válida.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Eu"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ausente ou inválida (`chave_invalida`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Limite de chamadas excedido (`limite_excedido`); veja `Retry-After`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha do nosso lado (`erro_interno`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/calculos": {
+      "get": {
+        "summary": "Listar os cálculos",
+        "description": "Os cálculos da conta, do mais novo para o mais antigo.",
+        "responses": {
+          "200": {
+            "description": "Cálculos da conta.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListaCalculos"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ausente ou inválida (`chave_invalida`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "A rota exige a chave de API, não um token de sessão (`requer_chave`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Limite de chamadas excedido (`limite_excedido`); veja `Retry-After`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha do nosso lado (`erro_interno`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/calculos/{id}": {
+      "get": {
+        "summary": "Detalhar um cálculo",
+        "description": "Metadados e os regimes, anos e cenários disponíveis para montar o `recorte`.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cálculo.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalculoDetalhe"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Corpo inválido (`requisicao_invalida`) ou cursor de outra seleção (`cursor_invalido`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ausente ou inválida (`chave_invalida`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Token de sessão de outro cálculo (`fora_da_sessao`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cálculo inexistente ou de outra conta (`calculo_nao_encontrado`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Dados do cálculo indisponíveis (`recalcule`) ou cálculo refeito durante a paginação (`cursor_invalido`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Limite de chamadas excedido (`limite_excedido`); veja `Retry-After`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha do nosso lado (`erro_interno`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Serviço temporariamente indisponível (`servico_indisponivel`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Serviço ocupado (`servico_ocupado`); tente de novo em alguns segundos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/calculos/{id}/linhas": {
+      "post": {
+        "summary": "Ler as linhas de um recorte",
+        "description": "Uma página de linhas. Para a próxima, repita o corpo com `cursor` = `proximo_cursor`.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LinhasEntrada"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Página de linhas.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LinhasSaida"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Corpo inválido (`requisicao_invalida`) ou cursor de outra seleção (`cursor_invalido`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ausente ou inválida (`chave_invalida`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Token de sessão de outro cálculo (`fora_da_sessao`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cálculo inexistente ou de outra conta (`calculo_nao_encontrado`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Dados do cálculo indisponíveis (`recalcule`) ou cálculo refeito durante a paginação (`cursor_invalido`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Limite de chamadas excedido (`limite_excedido`); veja `Retry-After`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha do nosso lado (`erro_interno`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Serviço temporariamente indisponível (`servico_indisponivel`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Serviço ocupado (`servico_ocupado`); tente de novo em alguns segundos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/calculos/{id}/export": {
+      "post": {
+        "summary": "Exportar o recorte em CSV",
+        "description": "Todas as linhas do recorte em CSV (UTF-8 com BOM, separador `;`, decimal com vírgula), com as colunas de `/linhas` na mesma ordem.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExportEntrada"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "CSV em streaming.",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Corpo inválido (`requisicao_invalida`) ou cursor de outra seleção (`cursor_invalido`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ausente ou inválida (`chave_invalida`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Token de sessão de outro cálculo (`fora_da_sessao`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cálculo inexistente ou de outra conta (`calculo_nao_encontrado`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Dados do cálculo indisponíveis (`recalcule`) ou cálculo refeito durante a paginação (`cursor_invalido`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Limite de chamadas excedido (`limite_excedido`); veja `Retry-After`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha do nosso lado (`erro_interno`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Serviço temporariamente indisponível (`servico_indisponivel`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Serviço ocupado (`servico_ocupado`); tente de novo em alguns segundos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/calculos/{id}/consulta": {
+      "post": {
+        "summary": "Consulta agregada",
+        "description": "Soma, conta e médias ponderadas por dimensões do catálogo.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsultaEntrada"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Grupos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConsultaSaida"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Corpo inválido (`requisicao_invalida`) ou cursor de outra seleção (`cursor_invalido`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ausente ou inválida (`chave_invalida`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Token de sessão de outro cálculo (`fora_da_sessao`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cálculo inexistente ou de outra conta (`calculo_nao_encontrado`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Dados do cálculo indisponíveis (`recalcule`) ou cálculo refeito durante a paginação (`cursor_invalido`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Limite de chamadas excedido (`limite_excedido`); veja `Retry-After`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha do nosso lado (`erro_interno`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Serviço temporariamente indisponível (`servico_indisponivel`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Serviço ocupado (`servico_ocupado`); tente de novo em alguns segundos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sessoes": {
+      "post": {
+        "summary": "Emitir token de sessão para o navegador",
+        "description": "Troca a chave de API por um token de 1h que só lê um cálculo. O backend do integrador chama esta rota e entrega o token ao navegador; a chave nunca sai do servidor.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessaoEntrada"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Token emitido.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessaoSaida"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Corpo inválido (`requisicao_invalida`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credencial ausente ou inválida (`chave_invalida`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "A rota exige a chave de API, não um token de sessão (`requer_chave`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cálculo inexistente ou de outra conta (`calculo_nao_encontrado`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Dados do cálculo indisponíveis (`recalcule`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Limite de chamadas excedido (`limite_excedido`); veja `Retry-After`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha do nosso lado (`erro_interno`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

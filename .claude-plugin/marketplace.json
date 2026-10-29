@@ -1,0 +1,14 @@
+{
+  "name": "pricetax",
+  "owner": { "name": "PriceTax", "url": "https://github.com/PriceTax" },
+  "description": "Plugins oficiais da PriceTax para o Claude Code.",
+  "plugins": [
+    {
+      "name": "pricetax",
+      "source": "./plugins/pricetax",
+      "description": "Integração com a API de cálculos da PriceTax: o Claude passa a saber usar o @pricetax/sdk e não deixa a chave de API vazar para o navegador.",
+      "category": "development",
+      "tags": ["pricetax", "reforma-tributaria", "sdk", "api"]
+    }
+  ]
+}

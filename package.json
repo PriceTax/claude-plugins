@@ -1,0 +1,11 @@
+{
+  "name": "pricetax-claude-plugins",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sincronizar": "node scripts/sincronizar-contrato.mjs && npm run gerar",
+    "gerar": "node scripts/gerar-catalogo.mjs && node scripts/gerar-integrar.mjs",
+    "gerar-catalogo": "node scripts/gerar-catalogo.mjs",
+    "test": "node --test test/*.test.mjs && node scripts/gerar-catalogo.mjs --conferir && node scripts/gerar-integrar.mjs --conferir"
+  }
+}

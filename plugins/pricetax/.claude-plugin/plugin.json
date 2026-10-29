@@ -1,0 +1,10 @@
+{
+  "name": "pricetax",
+  "version": "0.1.0",
+  "description": "Integração com a API de cálculos da PriceTax: o Claude passa a saber usar o @pricetax/sdk (chave no servidor, consultas, export, catálogo de colunas) e não deixa a chave de API vazar para o navegador.",
+  "author": { "name": "PriceTax", "url": "https://github.com/PriceTax" },
+  "homepage": "https://github.com/PriceTax/claude-plugins",
+  "repository": "https://github.com/PriceTax/claude-plugins",
+  "license": "MIT",
+  "keywords": ["pricetax", "reforma tributária", "sdk", "api"]
+}

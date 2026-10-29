@@ -1,0 +1,16 @@
+{
+  "description": "Impede gravar a chave de API da PriceTax onde ela vazaria (código, variáveis públicas do bundler, arquivos de exemplo).",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/proteger-chave.mjs\""
+          }
+        ]
+      }
+    ]
+  }
+}
