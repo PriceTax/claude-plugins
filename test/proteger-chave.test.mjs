@@ -1,4 +1,4 @@
-// Casos do hook que protege a chave (spec 16, D6): bloqueia o que vazaria, libera o uso certo.
+// Casos do hook que protege a chave: bloqueia o que vazaria, libera o uso certo.
 import { test } from "node:test"
 import assert from "node:assert/strict"
 import { spawnSync } from "node:child_process"

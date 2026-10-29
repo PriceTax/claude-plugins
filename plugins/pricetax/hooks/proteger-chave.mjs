@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Hook PreToolUse (Write|Edit|Bash) do plugin pricetax: impede o Claude de gravar a chave de API da
-// PriceTax onde ela vazaria para o navegador ou para o repositório (spec 16, D6).
+// PriceTax onde ela vazaria para o navegador ou para o repositório.
 //
 // Bloqueia (exit 2, motivo no stderr, que chega ao Claude):
 //   1. a chave literal (ptc_<12hex>_<64hex>) em qualquer arquivo que não seja um .env local;

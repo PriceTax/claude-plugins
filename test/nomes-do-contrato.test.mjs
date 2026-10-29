@@ -1,6 +1,6 @@
 // Todo nome de coluna, dimensão ou métrica citado na skill precisa existir no contrato:
 // o Claude copia esses nomes para o código do usuário, e um nome inventado vira
-// `400 requisicao_invalida` no app dele (spec 16, D5).
+// `400 requisicao_invalida` no app dele.
 import { test } from "node:test"
 import assert from "node:assert/strict"
 import { readFileSync, readdirSync } from "node:fs"
